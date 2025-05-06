@@ -2,6 +2,10 @@
 
 **TaskManagementApp** is a robust and efficient task management system designed to streamline task assignment, tracking, and completion in a client-server architecture. With this application, managers can effortlessly assign tasks to employees, set deadlines, mark tasks as complete, and delete tasks. Employees can view their assigned tasks and mark them as completed, enhancing collaboration and productivity in organizations.
 
+
+
+
+
 ## Features
 
 - **Task Assignment**: Managers can assign tasks to employees based on their roles and expertise.
@@ -9,6 +13,10 @@
 - **Task Status**: Employees can mark tasks as complete once finished. Managers can view the status of all tasks.
 - **Task Deletion**: Tasks can be removed when no longer needed or after completion.
 - **Real-time Interaction**: The application works in real-time, providing immediate feedback when changes occur.
+
+
+
+
 
 ## Architecture
 
@@ -18,12 +26,20 @@ This application follows a **Client-Server architecture**:
 
 The system is built using **Java**, with a focus on performance, security, and scalability.
 
+
+
+
+
 ## Requirements
 
 - **Java 11** or higher
 - **MySQL** for the database
 - The application uses **JDBC** for database connectivity
 - Maven: Used for dependency management and building the project.
+
+
+
+
 
 ## How to Run
 
@@ -48,10 +64,23 @@ You need to set up the MySQL database and create the required tables. Here's how
     CREATE TABLE users (
         id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(100),
-        role VARCHAR(50),
         password VARCHAR(255)
+        role VARCHAR(50),
     );
     ```
+
+    
+ - **Assign the users**:
+    ```sql
+INSERT INTO users (name, password, role)
+VALUES 
+    ('Munthir', '12', 'employee'),
+    ('Rauan', '23', 'employee'),
+    ('Sami', '34', 'employee'),
+    ('Khalid', '00', 'manager');
+    ```
+
+    
 
 - **Create the `tasks` table**:
     This table will store task details like title, completion status, due date, and the assigned employee.
@@ -60,11 +89,15 @@ You need to set up the MySQL database and create the required tables. Here's how
         id INT AUTO_INCREMENT PRIMARY KEY,
         title VARCHAR(255),
         completed BOOLEAN DEFAULT FALSE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         due_date DATETIME,
         assigned_to VARCHAR(255),
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
     ```
+
+
+
+    
 
 ### 3. Build the Project:
 Ensure that you have **Java 11 or above** installed. Then, build the project using Maven or an IDE:
@@ -74,6 +107,11 @@ Run the following command to clean and build the project:
 ```bash
 mvn clean install
  ```
+
+
+
+
+
 ### 4. Run the Server:
 Start the server by running the ServerMain class
 ```java
@@ -114,6 +152,10 @@ The server will listen for incoming client connections on port 10003. You should
 ```nginx
 Server started on port 10003
 ```
+
+
+
+
 ### 5. Run the Client:
  run the client by executing the ClientMain class
 ```java
@@ -166,6 +208,7 @@ import java.net.Socket;
 
 The client will connect to the server, where you can log in as either an employee or a manager.
 
+
 ## Example Interaction
 
 When you run the client, you will interact with the system through the terminal. Here's an example of what you might see:
@@ -182,6 +225,9 @@ After entering your ID, you will be asked to enter your password For example:
 Enter your password: 00
 ```
 
+
+
+
 Manager Role Example:
 If you log in as a manager, you will see the welcoming message and options like:
 ```bash
@@ -195,7 +241,6 @@ Login successful! Welcome Khalid
 5. Exit
 Enter your choice:
 ```
-
 Option 1: Add new task
 
 As a manager, you can add new tasks to the system.
@@ -211,6 +256,9 @@ Enter employee ID to assign the task to:
 Task assigned successfully to employee ID: 1
 ```
 
+
+
+
 Option 2: Show all tasks
 
 View all tasks in the system, whether they are completed or not For example:
@@ -223,6 +271,9 @@ All Tasks
 7. [UnComplet] finish
 ```
 
+
+
+
 Option 3: Mark task as complete
 
 Mark a task as completed by entering its task ID For example:
@@ -231,6 +282,9 @@ Enter task ID to mark as complete:
 23
 Task marked as complete!
 ```
+
+
+
 
 Option 4: Delete task
 
@@ -241,9 +295,13 @@ Enter task ID to delete:
 Task deleted successfully!
 ```
 
+
 Option 5: Exit
 
 Exit the task management system.
+
+
+
 
 
 Employee Role Example:
