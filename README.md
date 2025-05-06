@@ -331,7 +331,7 @@ Enter your choice:
 
 
 
-نسخ
+
 
   
 
