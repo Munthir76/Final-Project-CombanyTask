@@ -31,7 +31,7 @@ The system is built using **Java**, with a focus on performance, security, and s
 To get started, first clone the repository to your local machine:
 
 ```bash
-git clone https://github.com/Munthir76/Final-Project-CombanyTask.git;
+git clone https://github.com/Munthir76/Final-Project-CombanyTask.git
 ```
 
 ### 2. Set up the Database:
