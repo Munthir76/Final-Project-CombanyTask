@@ -109,5 +109,10 @@ public class ServerMain {
         }
     }
 ```
+The server will listen for incoming client connections on port 10003. You should see:
+
+
+نسخ
+
   
 
