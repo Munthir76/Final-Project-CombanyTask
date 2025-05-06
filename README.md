@@ -109,7 +109,168 @@ public class ServerMain {
         }
     }
 ```
+
 The server will listen for incoming client connections on port 10003. You should see:
+```nginx
+Server started on port 10003
+```
+### 5. Run the Client:
+ run the client by executing the ClientMain class
+```java
+package network;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+
+        public class ClientMain implements Runnable {
+            private final String serverAddress = "localhost";
+            private final int serverPort = 10003;
+
+            public static void main(String[] args) {
+                int clients = 1;
+                for (int i = 0; i < clients; i++) {
+                    Thread t = new Thread(new ClientMain(), "Client-" + i);
+                    t.start();
+                }
+            }
+
+            @Override
+            public void run() {
+                try (
+                        Socket socket = new Socket(serverAddress, serverPort);
+                        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                        BufferedReader console = new BufferedReader(new InputStreamReader(System.in))
+                ) {
+                    String serverMessage;
+                    while ((serverMessage = in.readLine()) != null) {
+                        synchronized (System.out) {
+                            System.out.println(serverMessage);
+                        }
+                        String msg = serverMessage.trim();
+                        if (msg.startsWith("Enter") && msg.endsWith(":")) {
+                            String userInput = console.readLine();
+                            if (userInput == null) break;
+                            out.println(userInput);
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+```
+
+The client will connect to the server, where you can log in as either an employee or a manager.
+
+## Example Interaction
+
+When you run the client, you will interact with the system through the terminal. Here's an example of what you might see:
+
+### Client Startup:
+
+
+You will be asked to enter your user ID. For example:
+```bash
+Enter your ID: 4
+```
+After entering your ID, you will be asked to enter your password For example:
+```bash
+Enter your password: 00
+```
+
+Manager Role Example:
+If you log in as a manager, you will see the welcoming message and options like:
+```bash
+Login successful! Welcome Khalid
+
+=== Manager Task  ===
+1. Add new task
+2. Show all tasks
+3. Mark task as complete
+4. Delete task
+5. Exit
+Enter your choice:
+```
+
+Option 1: Add new task
+
+As a manager, you can add new tasks to the system.
+
+You will be prompted to enter the task title , due date and assigned employee For example: 
+```bash
+Enter task title:
+CPIT-305-PROJECT
+Enter due date (yyyy-MM-dd HH:mm):
+2025-05-06 01:00
+Enter employee ID to assign the task to:
+1
+Task assigned successfully to employee ID: 1
+```
+
+Option 2: Show all tasks
+
+View all tasks in the system, whether they are completed or not For example:
+```bash
+All Tasks 
+23. [UnComplet] CPIT-305-PROJECT
+22. [UnComplet] last dance 
+9. [UnComplet] السلام عليكم !
+8. [UnComplet] f
+7. [UnComplet] finish
+```
+
+Option 3: Mark task as complete
+
+Mark a task as completed by entering its task ID For example:
+```bash
+Enter task ID to mark as complete:
+23
+Task marked as complete!
+```
+
+Option 4: Delete task
+
+Delete a task that is no longer needed by entering its task ID For example:
+```bash
+Enter task ID to delete:
+8
+Task deleted successfully!
+```
+
+Option 5: Exit
+
+Exit the task management system.
+
+
+Employee Role Example:
+If you log in as a Employee, you will see the welcoming message , your assigned task and options like:
+
+```bash
+Login successful! Welcome Munthir
+
+== Your Assigned Tasks ==
+22. [Pending] last dance  | Due: 2025-01-01T11:59
+7. [Pending] finish | Due: 2025-10-15T12:25
+
+=== Employee Task  ===
+1. Show all tasks
+2. Mark task as complete
+3. Exit
+Enter your choice:
+
+```
+
+
+
+
+
+
+
+
 
 
 نسخ
