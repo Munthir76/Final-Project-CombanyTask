@@ -29,7 +29,55 @@ The system is built using **Java**, with a focus on performance, security, and s
 
 ### 1. Clone the Repository:
 To get started, first clone the repository to your local machine:
+
 ```bash
-git clone https://github.com/Munthir76/Final-Project-CombanyTask.git
-2. Set up the Database:
+git clone https://github.com/Munthir76/Final-Project-CombanyTask.git;
+```
+
+### 2. Set up the Database:
+You need to set up the MySQL database and create the required tables. Here's how to do that:
+
+- **Create the Database**:
+    ```sql
+    CREATE DATABASE company_db;
+    ```
+
+- **Create the `users` table**:
+    This table will store user details such as name, role, and password.
+    ```sql
+    CREATE TABLE users (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(100),
+        role VARCHAR(50),
+        password VARCHAR(255)
+    );
+    ```
+
+- **Create the `tasks` table**:
+    This table will store task details like title, completion status, due date, and the assigned employee.
+    ```sql
+    CREATE TABLE tasks (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        title VARCHAR(255),
+        completed BOOLEAN DEFAULT FALSE,
+        due_date DATETIME,
+        assigned_to VARCHAR(255),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+    ```
+
+### 3. Build the Project:
+Ensure that you have **Java 11 or above** installed. Then, build the project using Maven or an IDE:
+
+#### If using **Maven**:
+Run the following command to clean and build the project:
+```bash
+mvn clean install
+ ```
+### 4. Run the Server:
+Start the server by running the ServerMain class
+```bash
+java -cp . network.ServerMain
+```
+  
 
