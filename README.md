@@ -72,8 +72,8 @@ You need to set up the MySQL database and create the required tables. Here's how
     
  - **Assign the users**:
     ```sql
-INSERT INTO users (name, password, role)
-VALUES 
+   INSERT INTO users (name, password, role)
+   VALUES 
     ('Munthir', '12', 'employee'),
     ('Rauan', '23', 'employee'),
     ('Sami', '34', 'employee'),
