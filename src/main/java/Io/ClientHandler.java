@@ -16,6 +16,7 @@ public class ClientHandler extends Thread {
     private BufferedReader in;
     private UserController userController;
     private TaskController taskController;
+    private User user;
 
     public ClientHandler(Socket socket) throws SQLException {
         this.socket = socket;
@@ -34,7 +35,6 @@ public class ClientHandler extends Thread {
             out.println("Enter your password:");
             String password = in.readLine();
 
-            User user;
             synchronized (DB_LOCK) {
                 user = userController.validateLogin(userId, password);
             }
@@ -48,7 +48,6 @@ public class ClientHandler extends Thread {
             out.println("Login successful! Welcome " + user.getName());
 
             if (user.getRole().equals("employee")) {
-                showAssignedTasks(user.getId());
                 handleEmployeeTasks();
             } else if (user.getRole().equals("manager")) {
                 handleManagerTasks();
@@ -65,35 +64,60 @@ public class ClientHandler extends Thread {
         }
     }
 
-    private void showAssignedTasks(String userId) throws SQLException {
-        List<Task> tasks = taskController.getTasksForUser(userId);
-        if (tasks.isEmpty()) {
-            out.println("You have no assigned tasks.");
-            return;
-        }
-        out.println("\n== Your Assigned Tasks ==");
-        for (Task task : tasks) {
-            String status = task.isCompleted() ? "[Completed]" : "[Pending]";
-            out.println(task.getId() + ". " + status + " " + task.getTitle() + " | Due: " + task.getDueDate());
-        }
-    }
-
     private void handleEmployeeTasks() throws IOException, SQLException {
         String message;
         while (true) {
             out.println("\n=== Employee Task  ===");
-            out.println("1. Show all tasks");
+            out.println("1. Show my tasks");
             out.println("2. Mark task as complete");
-            out.println("3. Exit");
+            out.println("3. Print my tasks to file");  
+            out.println("4. Exit");
             out.println("Enter your choice:");
 
             message = in.readLine();
             switch (message) {
-                case "1": synchronized (DB_LOCK) { listTasks(); } break;
+                case "1": synchronized (DB_LOCK) { showEmployeeTasks(); } break;
                 case "2": synchronized (DB_LOCK) { markTaskComplete(); } break;
-                case "3": out.println("Goodbye!"); socket.close(); return;
+                case "3": synchronized (DB_LOCK) { exportEmployeeTasksToFile(); } break; 
+                case "4": out.println("Goodbye!"); socket.close(); return;
                 default: out.println("Invalid option!");
             }
+        }
+    }
+
+    private void showEmployeeTasks() throws SQLException {
+        List<Task> tasks = taskController.getTasksForUser(user.getId());
+        if (tasks.isEmpty()) {
+            out.println("You have no tasks assigned.");
+            return;
+        }
+
+        out.println("\n== Your Assigned Tasks ==");
+        for (Task task : tasks) {
+            String status = task.isCompleted() ? "[Completed]" : "[InCompleted]";
+            out.println("Task ID: " + task.getId() + " | Title: " + task.getTitle() + " | Status: " + status + " | Due: " + task.getDueDate());
+        }
+    }
+
+    private void exportEmployeeTasksToFile() throws SQLException, IOException {
+        List<Task> tasks = taskController.getTasksForUser(user.getId()); // Fetch tasks assigned to the employee
+        if (tasks.isEmpty()) {
+            out.println("You have no tasks to export.");
+            return;
+        }
+
+        File file = new File(user.getId() + "Task_Employee_To_File.txt"); // File named after the employee ID
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            writer.write("=== My Tasks ===\n");
+            for (Task task : tasks) {
+                String status = task.isCompleted() ? "[Completed]" : "[InCompleted]";
+                writer.write("Task ID: " + task.getId() + "\n" +
+                        "Title: " + task.getTitle() + "\n" +
+                        "Status: " + status + "\n" +
+                        "Due Date: " + task.getDueDate() + "\n" +
+                        "-------------------\n");
+            }
+            out.println("Your tasks have been successfully exported to " + file.getName());
         }
     }
 
@@ -105,7 +129,8 @@ public class ClientHandler extends Thread {
             out.println("2. Show all tasks");
             out.println("3. Mark task as complete");
             out.println("4. Delete task");
-            out.println("5. Exit");
+            out.println("5. Export tasks to file");
+            out.println("6. Exit");
             out.println("Enter your choice:");
 
             message = in.readLine();
@@ -114,9 +139,32 @@ public class ClientHandler extends Thread {
                 case "2": synchronized (DB_LOCK) { listTasks(); } break;
                 case "3": synchronized (DB_LOCK) { markTaskComplete(); } break;
                 case "4": synchronized (DB_LOCK) { deleteTask(); } break;
-                case "5": out.println("Goodbye!"); socket.close(); return;
+                case "5": synchronized (DB_LOCK) { exportTasksToFile(); } break;
+                case "6": out.println("Goodbye!"); socket.close(); return;
                 default: out.println("Invalid option!");
             }
+        }
+    }
+    private  void exportTasksToFile() throws SQLException, IOException {
+        List<Task> tasks = taskController.getAllTasks();
+        if (tasks.isEmpty()) {
+            out.println("No tasks to export.");
+            return;
+        }
+
+        File file = new File("company_task_for_all.txt");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            writer.write("=== All Tasks ===\n");
+            for (Task task : tasks) {
+                String status = task.isCompleted() ? "[Completed]" : "[Pending]";
+                writer.write("Task ID: " + task.getId() + "\n" +
+                        "Title: " + task.getTitle() + "\n" +
+                        "Status: " + status + "\n" +
+                        "Due Date: " + task.getDueDate() + "\n" +
+                        "Assigned To: " + task.getAssignedTo() + "\n" +
+                        "-------------------\n");
+            }
+            out.println("Tasks have been successfully exported to company_task_for_all.txt");
         }
     }
 
@@ -154,7 +202,7 @@ public class ClientHandler extends Thread {
 
         out.println("\nAll Tasks ");
         for (Task task : tasks) {
-            String status = task.isCompleted() ? "[Completed]" : "[UnComplet]";
+            String status = task.isCompleted() ? "[Completed]" : "[InComplet]";
             out.println(task.getId() + ". " + status + " " + task.getTitle());
         }
     }
@@ -190,4 +238,6 @@ public class ClientHandler extends Thread {
             out.println("No task found with ID " + id);
         }
     }
+
+
 }
