@@ -347,6 +347,10 @@ Enter your choice:
 ```
 
 
+## AI-Assisted
+The AllImportantTests class was created with the help of ChatGPT to verify application functionality and ensure all required test cases are handled.
+
+
 
 
 
