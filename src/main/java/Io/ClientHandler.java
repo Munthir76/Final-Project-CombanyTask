@@ -94,7 +94,7 @@ public class ClientHandler extends Thread {
 
         out.println("\n== Your Assigned Tasks ==");
         for (Task task : tasks) {
-            String status = task.isCompleted() ? "[Completed]" : "[InCompleted]";
+            String status = task.isCompleted() ? "[Completed]" : "[Incomplete]";
             out.println("Task ID: " + task.getId() + " | Title: " + task.getTitle() + " | Status: " + status + " | Due: " + task.getDueDate());
         }
     }
@@ -110,7 +110,7 @@ public class ClientHandler extends Thread {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             writer.write("=== My Tasks ===\n");
             for (Task task : tasks) {
-                String status = task.isCompleted() ? "[Completed]" : "[InCompleted]";
+                String status = task.isCompleted() ? "[Completed]" : "[Incomplete]";
                 writer.write("Task ID: " + task.getId() + "\n" +
                         "Title: " + task.getTitle() + "\n" +
                         "Status: " + status + "\n" +
@@ -156,7 +156,7 @@ public class ClientHandler extends Thread {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             writer.write("=== All Tasks ===\n");
             for (Task task : tasks) {
-                String status = task.isCompleted() ? "[Completed]" : "[Pending]";
+                String status = task.isCompleted() ? "[Completed]" : "[Incomplete]";
                 writer.write("Task ID: " + task.getId() + "\n" +
                         "Title: " + task.getTitle() + "\n" +
                         "Status: " + status + "\n" +
@@ -202,7 +202,7 @@ public class ClientHandler extends Thread {
 
         out.println("\nAll Tasks ");
         for (Task task : tasks) {
-            String status = task.isCompleted() ? "[Completed]" : "[InComplet]";
+            String status = task.isCompleted() ? "[Completed]" : "[Incomplete]";
             out.println(task.getId() + ". " + status + " " + task.getTitle());
         }
     }
