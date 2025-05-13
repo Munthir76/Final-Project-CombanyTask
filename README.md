@@ -269,11 +269,11 @@ Task assigned successfully to employee ID: 1
 View all tasks in the system, whether they are completed or not For example:
 ```bash
 All Tasks 
-23. [UnComplet] CPIT-305-PROJECT
-22. [UnComplet] last dance 
-9. [UnComplet] السلام عليكم !
-8. [UnComplet] f
-7. [UnComplet] finish
+23. [Incomplete] CPIT-305-PROJECT
+22. [Incomplete] last dance 
+9. [Incomplete] السلام عليكم !
+8. [Incomplete] f
+7. [Incomplete] finish
 ```
 
 
