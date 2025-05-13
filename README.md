@@ -12,6 +12,10 @@
 - **Task Deadline Management**: Tasks can be assigned specific deadlines, ensuring better time management and project tracking.
 - **Task Status**: Employees can mark tasks as complete once finished. Managers can view the status of all tasks.
 - **Task Deletion**: Tasks can be removed when no longer needed or after completion.
+- **Task Export to File**:
+Manager: Can export all tasks to a file (company_task_for_all.txt), which includes the task details such as title, status, due date, and assigned employee.
+
+Employee: Can export only their assigned tasks to a file (named with their employee ID, e.g., employeeID_tasks.txt), containing similar details.
 - **Real-time Interaction**: The application works in real-time, providing immediate feedback when changes occur.
 
 
@@ -238,10 +242,11 @@ Login successful! Welcome Khalid
 2. Show all tasks
 3. Mark task as complete
 4. Delete task
-5. Exit
+5. Export tasks to file
+6. Exit
 Enter your choice:
 ```
-Option 1: Add new task
+### Option 1: Add new task
 
 As a manager, you can add new tasks to the system.
 
@@ -259,7 +264,7 @@ Task assigned successfully to employee ID: 1
 
 
 
-Option 2: Show all tasks
+### Option 2: Show all tasks
 
 View all tasks in the system, whether they are completed or not For example:
 ```bash
@@ -274,7 +279,7 @@ All Tasks
 
 
 
-Option 3: Mark task as complete
+### Option 3: Mark task as complete
 
 Mark a task as completed by entering its task ID For example:
 ```bash
@@ -286,7 +291,7 @@ Task marked as complete!
 
 
 
-Option 4: Delete task
+### Option 4: Delete task
 
 Delete a task that is no longer needed by entering its task ID For example:
 ```bash
@@ -294,9 +299,22 @@ Enter task ID to delete:
 8
 Task deleted successfully!
 ```
+###  Option 5: Export tasks to file
+As a manager, you can export all tasks to a file named company_task_for_all.tx
+```bash
+=== Manager Task  ===
+1. Add new task
+2. Show all tasks
+3. Mark task as complete
+4. Delete task
+5. Export tasks to file
+6. Exit
+Enter your choice:
+5
+Tasks have been successfully exported to company_task_for_all.txt
+```
 
-
-Option 5: Exit
+### Option 6: Exit
 
 Exit the task management system.
 
@@ -304,20 +322,18 @@ Exit the task management system.
 
 
 
-Employee Role Example:
-If you log in as a Employee, you will see the welcoming message , your assigned task and options like:
+### Employee Role Example:
+If you log in as a Employee, you will see the welcoming message , and options like:
 
 ```bash
 Login successful! Welcome Munthir
 
-== Your Assigned Tasks ==
-22. [Pending] last dance  | Due: 2025-01-01T11:59
-7. [Pending] finish | Due: 2025-10-15T12:25
 
 === Employee Task  ===
-1. Show all tasks
+1. Show my tasks
 2. Mark task as complete
-3. Exit
+3. Print my tasks to file
+4. Exit
 Enter your choice:
 
 ```
