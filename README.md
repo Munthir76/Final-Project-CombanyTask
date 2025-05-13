@@ -318,6 +318,14 @@ Tasks have been successfully exported to company_task_for_all.txt
 
 Exit the task management system.
 
+```bash
+Enter your choice:
+6
+Goodbye!
+
+Process finished with exit code 0
+
+```
 
 
 
